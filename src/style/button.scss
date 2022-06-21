@@ -9,6 +9,7 @@
     transition: 0.3s transform;
     border: none;
     background-color: transparent;
+    
     cursor: pointer;
     &__long {
         display: block;
@@ -87,5 +88,8 @@
     }
     &:hover {
         transform: translateY(-5px);
+    }
+    &:disabled{
+        filter: grayscale(.5);
     }
 }

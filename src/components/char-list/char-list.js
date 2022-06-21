@@ -6,29 +6,51 @@ import MarvelService from '../../services/marvel-services';
 import './char-list.scss';
 
 class CharsList extends Component{
-    state = {
-        charsList: [],
-        loading: true,
-        error: false
+    constructor(props) {
+        super(props)
+        this.state = {
+            charsList: [],
+            loading: true,
+            newCharsLoading: false,
+            error: false,
+            offset: 210,
+            buttonVisible: true
+        }
+
     }
 
 
     marvelService = new MarvelService()
 
     componentDidMount(){
-        this.marvelService.getAllCharacters()
-            .then(this.onCharsListLoaded)
-            .catch(this.onError)    
+        this.onRequest() 
     } 
 
-   
-
-    onCharsListLoaded = (charsList) => {
+    onRequest = (offset) => {
+        this.onCharsListLoading()
+        this.marvelService.getAllCharacters(offset)
+            .then(this.onCharsListLoaded)
+            .catch(this.onError)
+    }
+    onCharsListLoading = () => {
         this.setState({
-            charsList,
-            loading: false
+            newCharsLoading: true
         })
     }
+    onCharsListLoaded = (newCharsList) => {
+        let charsEnded = true
+        if (newCharsList.length < 9) {
+            charsEnded = false
+        }
+        this.setState(({charsList,offset}) => ({
+            charsList: [...charsList, ...newCharsList],
+            loading: false,
+            offset: offset + 9,
+            newCharsLoading: false,
+            buttonVisible: charsEnded
+        }))
+    }
+
     onError = () => {
         this.setState({
             loading: false,
@@ -57,20 +79,26 @@ class CharsList extends Component{
     }
 
 
-
     render() {
-        const {charsList, error, loading} = this.state
+        const {charsList, error, loading, newCharsLoading, offset, buttonVisible} = this.state
         const items = this.itemsRender(charsList)
         const errorMessage = error ? <ErrorMessage/> : null
         const spinner = loading ? <Spinner/> : null 
-        const content = !(loading || error) ? items : null 
+        const content = !(loading || error) ? items : null
+        const buttonStyle = buttonVisible ? null : {display: "none"}
         return (
             <div className="char__list">
                 {errorMessage}
                 {spinner}
                 {content}
-                <button className="button button__main button__long">
-                    <div className="inner">load more</div>
+                <button 
+                    style={buttonStyle}
+                    disabled={newCharsLoading}
+                    onClick={() => {
+                        this.onRequest(offset)
+                    }}
+                    className="button button__main button__long">
+                        <div className="inner">load more</div>
                 </button>
             </div>
         )
@@ -79,41 +107,3 @@ class CharsList extends Component{
 
 export default CharsList;
 
-// <ul className="char__grid">
-//                     <li className="char__item">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                     <li className="char__item char__item_selected">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                     <li className="char__item">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                     <li className="char__item">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                     <li className="char__item">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                     <li className="char__item">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                     <li className="char__item">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                     <li className="char__item">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                     <li className="char__item">
-//                         <img src={abyss} alt="abyss"/>
-//                         <div className="char__name">Abyss</div>
-//                     </li>
-//                 </ul>
