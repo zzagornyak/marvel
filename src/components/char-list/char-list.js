@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from "prop-types"
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../error-message/error-message';
 import MarvelService from '../../services/marvel-services';
@@ -11,32 +12,50 @@ class CharsList extends Component{
         this.state = {
             charsList: [],
             loading: true,
-            newCharsLoading: false,
+            newCharsLoading: true,
             error: false,
             offset: 210,
             buttonVisible: true
         }
 
     }
-
-
+ 
     marvelService = new MarvelService()
 
     componentDidMount(){
         this.onRequest() 
+
+        // Подгрузка новых персонажей по скролу в конец страницы
+
+        // window.addEventListener('scroll', () => {
+        // if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight -1) {
+        //         this.onRequest(this.state.offset)
+        //     }    
+        // });
     } 
+    // componentWillUnmount() {
+    //     window.removeEventListener('scroll', () => {
+    //         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight -1) {
+    //             this.onRequest(this.state.offset)
+    //         }    
+    //     });
+    // }
+
 
     onRequest = (offset) => {
+
         this.onCharsListLoading()
         this.marvelService.getAllCharacters(offset)
             .then(this.onCharsListLoaded)
             .catch(this.onError)
     }
+
     onCharsListLoading = () => {
         this.setState({
             newCharsLoading: true
         })
     }
+
     onCharsListLoaded = (newCharsList) => {
         let charsEnded = true
         if (newCharsList.length < 9) {
@@ -63,11 +82,14 @@ class CharsList extends Component{
             const {name, thumbnail, id} = item
             const imageStyle = thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? {objectFit: 'unset'} : {objectFit: 'cover'}
             return(
-                <li key={id} className="char__item">
-                    <img style={imageStyle}
-                        src={thumbnail} 
-                        alt={name}/>
-                    <div className="char__name">{name}</div>
+                <li 
+                onClick={() => this.props.onCharSelected(id)}
+                key={id} 
+                className="char__item">
+                        <img style={imageStyle}
+                            src={thumbnail} 
+                            alt={name}/>
+                        <div className="char__name">{name}</div>
                 </li>
             )
         })
@@ -104,6 +126,13 @@ class CharsList extends Component{
         )
     }
 }
+
+CharsList.propTypes = {
+    onCharSelected: PropTypes.func.isRequired
+}
+// CharsList.defaultProps = {
+//     : 
+// }
 
 export default CharsList;
 
