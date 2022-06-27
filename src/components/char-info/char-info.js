@@ -1,4 +1,4 @@
-import { Component } from 'react/cjs/react.production.min';
+import { useState, useEffect } from 'react';
 
 import MarvelService from '../../services/marvel-services';
 import ErrorMessage from '../error-message/error-message';
@@ -8,68 +8,53 @@ import Skeleton from '../skeleton/skeleton';
 import './char-info.scss';
 
 
-class CharInfo extends Component {
-    state = {
-        char: null,
-        loading: false,
-        error: false
+const CharInfo = (props) => {
+    console.log(props.charId)
+    const [char, setChar] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)    
+
+    const marvelService = new MarvelService()
+
+    useEffect(() => {
+        updateChar()
+// eslint-disable-next-line
+    }, [props.charId])
+
+    const onCharLoaded = (char) => {
+        setChar(char)
+        setLoading(false)
     }
 
-    marvelService = new MarvelService()
-
-    componentDidMount() {
-        this.updateChar();
+    const onError = () => {
+        setLoading(false)
+        setError(true)
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.charId !== this.props.charId) {
-            this.updateChar()
-
-        }
-    }
-
-    onCharLoaded = (char) => {
-        this.setState({
-            char,
-            loading: false
-        })
-    }
-    onError = () => {
-        this.setState({
-            loading: false,
-            error: true
-        })
-    }
-
-    updateChar = () => {
-        const {charId} = this.props
+    const updateChar = () => {
+        const {charId} = props
         if (!charId) {
             return
         }
-        
-        this.marvelService
-            .getCharacter(charId)
-            .then(this.onCharLoaded)
-            .catch(this.onError)
+        setLoading(true)
+        marvelService.getCharacter(charId)
+            .then(onCharLoaded)
+            .catch(onError)
     }
     
 
-    render() {
-        const {char, loading, error} = this.state
-
-        const spinner = loading ? <Spinner/> : null 
-        const errorMessage = error ? <ErrorMessage/>  : null
-        const content = !(loading || error || !char) ? <View char={char} /> : null
-        const skeleton = char || spinner || errorMessage  ? null : <Skeleton/> 
-        return (
-            <div className="char__info">
-                {spinner}
-                {errorMessage}
-                {content}   
-                {skeleton}             
-            </div>
-        )
-    }
+    const spinner = loading ? <Spinner/> : null 
+    const errorMessage = error ? <ErrorMessage/>  : null
+    const content = !(loading || error || !char) ? <View char={char} /> : null
+    const skeleton = char || spinner || errorMessage  ? null : <Skeleton/> 
+    return (
+        <div className="char__info">
+            {spinner}
+            {errorMessage}
+            {content}   
+            {skeleton}             
+        </div>
+    )
 }
 
 
