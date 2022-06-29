@@ -1,10 +1,41 @@
 .comics {
     &__list {
-        margin-top: 45px;
+        margin-top: 20px;
+        width: 1100px;
     }
+    &__header {
+        position: relative;
+        width: 1100px;
+        height: 100px;
+        background: #232222;
+        margin-bottom: 45px;
+        align-items: center;
+        &-text {
+            position: absolute;
+            box-sizing: border-box;
+            width: 235px;
+            height: 64px;
+            left: 280px;
+            top: 18px;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 28px;
+            color: #ffffff;
+        }
+        &-logo {
+            position: absolute;
+            right: 25px;
+        }
+
+        &-img {
+            position: absolute;
+            left: 45px;
+        }
+    }
+
     &__grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, 225px);
+        grid-template-columns: repeat(4, 225px);
         justify-content: space-between;
         row-gap: 55px;
     }

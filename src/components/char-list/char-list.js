@@ -2,55 +2,42 @@ import { useEffect, useState, useRef } from 'react';
 import PropTypes from "prop-types"
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../error-message/error-message';
-import MarvelService from '../../services/marvel-services';
+import useMarvelService from '../../services/marvel-services';
 
 import './char-list.scss';
 
 const CharsList = (props) => {
 
     const [charsList, setCharsList] = useState([])
-    const [loading, setLoading] = useState(true)
     const [newCharsLoading, setNewCharsLoading] = useState(true)
-    const [error, setError] = useState(false)
     const [offset, setOffset] = useState(210)
     const [buttonVisible, setButtonVisible] = useState(true)
  
-    const marvelService = new MarvelService()
+    const {loading, error, getAllCharacters} = useMarvelService()
 
     useEffect(() => {
-        onRequest()
+        onRequest(offset, true)
 // eslint-disable-next-line
     }, [])
     
-    const onRequest = (offset) => {
-
-        onCharsListLoading()
-        marvelService.getAllCharacters(offset)
+    const onRequest = (offset, initial) => {
+        initial ? setNewCharsLoading(false) : setNewCharsLoading(true)
+        getAllCharacters(offset)
             .then(onCharsListLoaded)
-            .catch(onError)
-    }
-
-    const onCharsListLoading = () => {
-        setNewCharsLoading(true)
     }
 
     const onCharsListLoaded = (newCharsList) => {
-        let charsEnded = true
+        let charsEnded = false
         if (newCharsList.length < 9) {
-            charsEnded = false
+            charsEnded = true
         }
 
         setCharsList(charsList => [...charsList, ...newCharsList])
-        setLoading(false)
         setOffset(offset => offset +9)
         setNewCharsLoading(false)
         setButtonVisible(charsEnded)
     }
 
-    const onError = () => {
-        setLoading(false)
-        setError(true)
-    }
 
     const itemRefs = useRef([])
 
@@ -99,14 +86,13 @@ const CharsList = (props) => {
 
     const items = itemsRender(charsList)
     const errorMessage = error ? <ErrorMessage/> : null
-    const spinner = loading ? <Spinner/> : null 
-    const content = !(loading || error) ? items : null
-    const buttonStyle = buttonVisible ? null : {display: "none"}
+    const spinner = loading && !newCharsLoading ? <Spinner/> : null 
+    const buttonStyle = buttonVisible ? null: {display: "none"}
     return (
         <div className="char__list">
             {errorMessage}
             {spinner}
-            {content}
+            {items}
             <button 
                 style={buttonStyle}
                 disabled={newCharsLoading}
