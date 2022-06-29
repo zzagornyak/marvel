@@ -17,20 +17,17 @@ const CharsList = (props) => {
 
     useEffect(() => {
         onRequest(offset, true)
-// eslint-disable-next-line
     }, [])
     
     const onRequest = (offset, initial) => {
+        console.log("onRequest")
         initial ? setNewCharsLoading(false) : setNewCharsLoading(true)
         getAllCharacters(offset)
             .then(onCharsListLoaded)
     }
 
     const onCharsListLoaded = (newCharsList) => {
-        let charsEnded = false
-        if (newCharsList.length < 9) {
-            charsEnded = true
-        }
+        const charsEnded = newCharsList.length < 9 ? false : true
 
         setCharsList(charsList => [...charsList, ...newCharsList])
         setOffset(offset => offset +9)
@@ -88,6 +85,7 @@ const CharsList = (props) => {
     const errorMessage = error ? <ErrorMessage/> : null
     const spinner = loading && !newCharsLoading ? <Spinner/> : null 
     const buttonStyle = buttonVisible ? null: {display: "none"}
+
     return (
         <div className="char__list">
             {errorMessage}

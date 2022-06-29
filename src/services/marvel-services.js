@@ -30,12 +30,12 @@ const useMarvelService = () => {
         return {
             id: arg.id,
             name: arg.name? arg.name : arg.title,
-            description: arg.description ? arg.description.slice(0,210)+"..." : "There is no description for this argacter.",
+            description: arg.description ? arg.description.slice(0,210)+"..." : "There is no description for this character.",
             thumbnail: arg.thumbnail.path + "." + arg.thumbnail.extension,
             homepage: arg.urls[0].url,
             wiki: arg.urls[1].url,
             comics: arg.comics ? arg.comics.items: null,
-            price: arg.prices[0].price
+            price: arg.price ? arg.prices[0].price : null
         }
     }
     return {loading, error, getAllCharacters, getCharacter, clearError,getComics}

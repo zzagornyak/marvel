@@ -1,7 +1,6 @@
-import {useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
-import avengers from "../../resources/img/Avengers.png"
-import avengersLogo from "../../resources/img/Avengers_logo.png"
+
 
 import useMarvelService from '../../services/marvel-services';
 
@@ -18,7 +17,7 @@ const ComicsList = () => {
     const [buttonVisible, setButtonVisible] = useState(true)
 
     const {loading, error, getComics} = useMarvelService()
-    
+
     
     useEffect(()=> {
         onRequest(offset, true)
@@ -33,9 +32,13 @@ const ComicsList = () => {
     }
 
     function onComicsLoaded(newComics) {
+        const comicsEnded = newComics.length < 8 ? false : true
+
+
         setComics(comics => [...comics, ...newComics])
         setOffset(offset => offset+9)
         setNewComicsLoading (false)
+        setButtonVisible(comicsEnded)
     }
 
     const items = comics.map((item, i) => {
@@ -60,19 +63,10 @@ const ComicsList = () => {
 
     return (
         <div className="comics__list">
-            <div className="comics__header">
-                <img src={avengers} alt="" className="comics__header-avengers" />
-                <div className="comics__header-text">
-                    <span >New comics every week! Stay tuned!</span>
-                </div>
-        
-                <img src={avengersLogo} alt="" className="comics__header-logo" />
-            </div>
-
                 {spinner}
             <ul className="comics__grid">
                 {items}
-                {error}
+                {errorMessage}
             </ul>
 
             <button 
