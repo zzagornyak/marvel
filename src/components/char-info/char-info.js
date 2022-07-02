@@ -18,10 +18,6 @@ const CharInfo = (props) => {
 // eslint-disable-next-line
     }, [props.charId])
 
-    const onCharLoaded = (char) => {
-        setChar(char)
-    }
-
     const updateChar = () => {
         clearError()
         const {charId} = props
@@ -31,6 +27,11 @@ const CharInfo = (props) => {
         getCharacter(charId)
             .then(onCharLoaded)
     }
+    
+    const onCharLoaded = (char) => {
+        setChar(char)
+    }
+
     
 
     const spinner = loading ? <Spinner/> : null 

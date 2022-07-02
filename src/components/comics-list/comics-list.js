@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-
+import { Link } from 'react-router-dom';
 
 
 import useMarvelService from '../../services/marvel-services';
@@ -12,7 +12,7 @@ import './comics-list.scss';
 
 const ComicsList = () => {
     const [comics, setComics] = useState([])
-    const [offset, setOffset] = useState(10000) 
+    const [offset, setOffset] = useState(7000) 
     const [onNewComicsLoading, setNewComicsLoading] = useState(false)
     const [buttonVisible, setButtonVisible] = useState(true)
 
@@ -21,6 +21,7 @@ const ComicsList = () => {
     
     useEffect(()=> {
         onRequest(offset, true)
+// eslint-disable-next-line
     }, [])
     
     const onRequest = (offset, initial) => {
@@ -42,15 +43,15 @@ const ComicsList = () => {
     }
 
     const items = comics.map((item, i) => {
-        const {name, thumbnail, price, homepage} = item
+        const {name, thumbnail, price, } = item
         return (
             <li key={i} className="comics__item">
-                    <a  href={homepage}>
+                    <Link  to={`/comics/${item.id}`}>
                         <img src={thumbnail} alt={name} 
                         className="comics__item-img"/>
                         <div className="comics__item-name">{name}</div>
                         <div className="comics__item-price">{price}</div>
-                    </a>
+                    </Link>
             </li>
         )
     })

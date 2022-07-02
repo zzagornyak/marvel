@@ -10,11 +10,15 @@ const useMarvelService = () => {
     const _baseComicsOffset = 5000
     
     const getComics = async (offset=_baseComicsOffset) => {
-        const res = await request(`${_apiBase}comics?format=comic&hasDigitalIssue=true&limit=8&offset=${offset}&apikey=45a892704752bc34880c920802df307a`)
-        return res.data.results.map(_transformCharacter)
+        const res = await request(`${_apiBase}comics?format=comic&hasDigitalIssue=true&limit=8&offset=${offset}&${_apiKey}`)
+        return res.data.results.map(_transformComics)
+    }
+    const getComic = async (id) => {
+        const res = await request(`${_apiBase}comics/${id}?${_apiKey}`)
+        return _transformComics(res.data.results[0])
     }
     
-    
+    // https://gateway.marvel.com:443/v1/public/comics/82967?apikey=45a892704752bc34880c920802df307a
     const getAllCharacters = async (offset=_baseOffset) => {
         const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`)
         return res.data.results.map(_transformCharacter)
@@ -26,19 +30,32 @@ const useMarvelService = () => {
     
     }
 
-    const _transformCharacter = (arg) => {
+    const _transformCharacter = (character) => {
         return {
-            id: arg.id,
-            name: arg.name? arg.name : arg.title,
-            description: arg.description ? arg.description.slice(0,210)+"..." : "There is no description for this character.",
-            thumbnail: arg.thumbnail.path + "." + arg.thumbnail.extension,
-            homepage: arg.urls[0].url,
-            wiki: arg.urls[1].url,
-            comics: arg.comics ? arg.comics.items: null,
-            price: arg.price ? arg.prices[0].price : null
+            id: character.id,
+            name: character.name,
+            description: character.description ? character.description.slice(0,210)+"..." : "There is no description for this character.",
+            thumbnail: character.thumbnail.path + "." + character.thumbnail.extension,
+            homepage: character.urls[0].url,
+            wiki: character.urls[1].url,
+            comics: character.comics.items,
         }
     }
-    return {loading, error, getAllCharacters, getCharacter, clearError,getComics}
+
+    const _transformComics = (comic) => {
+        return {
+            id: comic.id,
+            name: comic.title,
+            description: comic.description ? comic.description : "There is no description for this comic.",
+            thumbnail: comic.thumbnail.path + "." + comic.thumbnail.extension,
+            homepage: comic.urls[0].url,
+            price: comic.prices ? comic.prices[0].price : "is not available to purchase",
+            language: comic.textObjects[0].language,
+            pages: comic.pageCount
+
+        }
+    }
+    return {loading, error, getAllCharacters, getCharacter, clearError,getComics, getComic}
     
 }    
 
@@ -46,16 +63,3 @@ export default useMarvelService;
 
 
 
-
-
-
-// axios.get("https://jsonplaceholder.typicode.com/todos/1")
-//   .then(response => console.log("response", response.data))
-
-// axios
-//   .post("https://jsonplaceholder.typicode.com/posts", {
-//     title: "Title of post",
-//     body: "Body of post"
-//   })
-//   .then(response => console.log(response.data))
-//   .catch(error => console.log(error));

@@ -10,17 +10,17 @@ const CharsList = (props) => {
 
     const [charsList, setCharsList] = useState([])
     const [newCharsLoading, setNewCharsLoading] = useState(true)
-    const [offset, setOffset] = useState(210)
+    const [offset, setOffset] = useState(142)
     const [buttonVisible, setButtonVisible] = useState(true)
  
     const {loading, error, getAllCharacters} = useMarvelService()
 
     useEffect(() => {
         onRequest(offset, true)
+// eslint-disable-next-line
     }, [])
     
     const onRequest = (offset, initial) => {
-        console.log("onRequest")
         initial ? setNewCharsLoading(false) : setNewCharsLoading(true)
         getAllCharacters(offset)
             .then(onCharsListLoaded)
