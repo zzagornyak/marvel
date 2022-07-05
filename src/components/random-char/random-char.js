@@ -30,11 +30,6 @@ const RandomChar = () => {
     }
 
 
-
-    // const errorMessage = error ? <ErrorMessage/> : null
-    // const spinner = loading ? <Spinner/> : null
-    // const content = !(loading || error) ? <View char={char}/> : null
-
     return (
         <div className="randomchar">
             {error && <ErrorMessage/>}

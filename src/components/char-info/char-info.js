@@ -58,7 +58,7 @@ const View = ({char}) => {
     const comicsItems = comics.map((item, index) => {
         const comicsId = item.resourceURI.match(/\d+$/g)[0]; 
         // eslint-disable-next-line
-        if (index>10) return
+        
         return (
             <Link to={`/comics/${comicsId}`} key={index} className="char__comics-item">
                     {item.name}

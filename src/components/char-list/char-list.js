@@ -53,17 +53,17 @@ const CharsList = (props) => {
             const imageStyle = thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? {objectFit: 'unset'} : {objectFit: 'cover'}
             return(
                 <CSSTransition
-                onEnter={() => {
+                onEntering={() => {
                     if(i > 9 && i % 9 === 1) {
-                        console.log("scroll")
-                        setTimeout(() => {
-                            window.scrollBy(0,600)
-                        },100)
+                        window.scrollBy({
+                            top: 550, 
+                            behavior: "smooth"
+                        })
                     }
                 }}
                 in={item.id}
                 key={id}
-                timeout={500}
+                timeout={100}
                 classNames={"char__item"}>
                     <li 
                         ref={el => itemRefs.current[i] = el}
@@ -100,14 +100,12 @@ const CharsList = (props) => {
 
 
     const items = itemsRender(charsList)
-    const errorMessage = error ? <ErrorMessage/> : null
-    const spinner = loading && !newCharsLoading ? <Spinner/> : null 
     const buttonStyle = buttonVisible ? null: {display: "none"}
 
     return (
         <div className="char__list">
-            {errorMessage}
-            {spinner}
+            {error && <ErrorMessage/>}
+            {(loading && !newCharsLoading) && <Spinner/>}
             <TransitionGroup >
                 {items}
             </TransitionGroup>

@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
 @import './button';
 
+
 * {
     font-family: "Roboto Condensed", sans-serif;
     margin: 0;
@@ -11,7 +12,10 @@
 
 }
 body {
-    background: linear-gradient(to right, rgb(29, 12, 20), rgb(240, 2, 2));
+    background: linear-gradient(315deg, black, #e23636, black);
+    background-size: cover;
+    min-height: 1650px;
+
 }
 
 ul,
@@ -89,5 +93,7 @@ main {
         opacity: 1
     }
 }
+
+
 
   

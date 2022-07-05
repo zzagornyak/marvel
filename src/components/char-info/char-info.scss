@@ -9,6 +9,7 @@
         z-index: 5;
         background-color: #fff;
         border-radius: 20px;
+        max-height: 700px;
         &-name {
             font-weight: bold;
             font-size: 22px;
@@ -48,6 +49,8 @@
         &-list {
             position: relative;
             margin-top: 10px;
+            max-height: 350px;
+            overflow-y:scroll;
         }
         &-item {
             width: 100%;

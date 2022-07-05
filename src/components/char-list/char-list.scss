@@ -28,19 +28,24 @@
         cursor: pointer;
         transition: 0.3s transform;
 
+
         &-enter {
             transform: translateX(-1200px) rotate(90deg);
-            transition: all linear;
+            
         }
-
+        
         &-enter-active {
-            transition: all linear;
-
+            transform: translateX(-1200px) rotate(90deg);
+            transition: all 700ms ease-in-out;
+            
         }
+        
         &-enter-done {
             transform: translateX(0) rotate(0deg);
-            transition: all 500ms;
+            transition: all 700ms ease-in-out;
+            
         }
+
 
 
         img {
@@ -67,3 +72,5 @@
 
     }
 }
+
+

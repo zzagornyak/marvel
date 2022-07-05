@@ -38,6 +38,8 @@
         grid-template-columns: repeat(4, 225px);
         justify-content: space-between;
         row-gap: 55px;
+        min-height: 1000px;
+
     }
     &__item {
         transition: 0.3s transform;
