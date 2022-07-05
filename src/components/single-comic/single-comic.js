@@ -46,7 +46,7 @@ const SingleComic = () => {
 
 
 const View = ({comic}) => {
-    const {name, description, thumbnail, price, language, pages} = comic
+    const {name, description, thumbnail, price, language, pages, purchase} = comic
     return (
         <>
             <img src={thumbnail} alt={name} className="single-comic__img"/>
@@ -54,8 +54,9 @@ const View = ({comic}) => {
                 <h2 className="single-comic__name">{name}</h2>
                 <p className="single-comic__descr">{description}</p>
                 <p className="single-comic__descr">{pages}</p>
-                <p className="single-comic__descr">Language: {language}</p>
+                <p className="single-comic__descr">Language: {language ? language : "Please check in the our store"}</p>
                 <div className="single-comic__price">{price}$</div>
+                <a href={purchase} className="single-comic__descr">Click to buy in the our store</a>
             </div>
             <Link  to="../comics" className="single-comic__back">Back to all</Link>
         </>

@@ -10,7 +10,7 @@ const useMarvelService = () => {
     const _baseComicsOffset = 5000
     
     const getComics = async (offset=_baseComicsOffset) => {
-        const res = await request(`${_apiBase}comics?format=comic&hasDigitalIssue=true&limit=8&offset=${offset}&${_apiKey}`)
+        const res = await request(`${_apiBase}comics?format=comic&hasDigitalIssue=true&limit=12&offset=${offset}&${_apiKey}`)
         return res.data.results.map(_transformComics)
     }
     const getComic = async (id) => {
@@ -21,6 +21,7 @@ const useMarvelService = () => {
     // https://gateway.marvel.com:443/v1/public/comics/82967?apikey=45a892704752bc34880c920802df307a
     const getAllCharacters = async (offset=_baseOffset) => {
         const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`)
+
         return res.data.results.map(_transformCharacter)
     }
 
@@ -31,6 +32,7 @@ const useMarvelService = () => {
     }
 
     const _transformCharacter = (character) => {
+
         return {
             id: character.id,
             name: character.name,
@@ -43,16 +45,17 @@ const useMarvelService = () => {
     }
 
     const _transformComics = (comic) => {
+        console.log(comic)
         return {
             id: comic.id,
             name: comic.title,
             description: comic.description ? comic.description : "There is no description for this comic.",
             thumbnail: comic.thumbnail.path + "." + comic.thumbnail.extension,
             homepage: comic.urls[0].url,
-            price: comic.prices ? comic.prices[0].price : "is not available to purchase",
-            language: comic.textObjects[0].language,
-            pages: comic.pageCount
-
+            price: comic.prices[0].price === 0 ? "NOT AVAILABLE" : comic.prices[0].price, 
+            language: comic.textObjects[0]? comic.textObjects[0].language  : null,
+            pages: comic.pageCount,
+            purchase: comic.urls[1].url
         }
     }
     return {loading, error, getAllCharacters, getCharacter, clearError,getComics, getComic}

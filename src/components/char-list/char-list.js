@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../error-message/error-message';
 import useMarvelService from '../../services/marvel-services';
+import {CSSTransition,TransitionGroup,} from 'react-transition-group';
 
 import './char-list.scss';
 
@@ -51,26 +52,43 @@ const CharsList = (props) => {
             const {name, thumbnail, id} = item
             const imageStyle = thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? {objectFit: 'unset'} : {objectFit: 'cover'}
             return(
-                <li 
-                ref={el => itemRefs.current[i] = el}
-                tabIndex={0}
-                onClick={() => {
-                    props.onCharSelected(id)
-                    focusOnItem(i)
-                }}
-                onKeyPress={e => {
-                    if (e.key === "" || e.key === "Enter"){
-                        props.onCharSelected(id)
-                        focusOnItem(i)
+                <CSSTransition
+                onEnter={() => {
+                    if(i > 9 && i % 9 === 1) {
+                        console.log("scroll")
+                        setTimeout(() => {
+                            window.scrollBy(0,600)
+                        },100)
                     }
                 }}
-                key={id} 
-                className="char__item">
-                        <img style={imageStyle}
-                            src={thumbnail} 
-                            alt={name}/>
-                        <div className="char__name">{name}</div>
-                </li>
+                in={item.id}
+                key={id}
+                timeout={500}
+                classNames={"char__item"}>
+                    <li 
+                        ref={el => itemRefs.current[i] = el}
+                        tabIndex={0}
+                        onClick={() => {
+                            props.onCharSelected(id)
+                            focusOnItem(i)
+                            // window.scrollTo(0,300)
+                        }}
+                        onKeyPress={e => {
+                            if (e.key === "" || e.key === "Enter"){
+                                props.onCharSelected(id)
+                                focusOnItem(i)
+                            }
+                        }}
+                         
+                        className="char__item">
+                            <img style={imageStyle}
+                                src={thumbnail} 
+                                alt={name}/>
+                            <div className="char__name">
+                                {name}
+                            </div>
+                    </li>
+                </CSSTransition>
             )
         })
         return(
@@ -90,12 +108,15 @@ const CharsList = (props) => {
         <div className="char__list">
             {errorMessage}
             {spinner}
-            {items}
+            <TransitionGroup >
+                {items}
+            </TransitionGroup>
             <button 
                 style={buttonStyle}
                 disabled={newCharsLoading}
                 onClick={() => {
                     onRequest(offset)
+                    
                 }}
                 className="button button__main button__long">
                     <div className="inner">load more</div>

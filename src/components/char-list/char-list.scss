@@ -8,13 +8,18 @@
         column-gap: 25px;
         align-items: start;
     }
+
     &__grid {
         display: grid;
         grid-template-columns: repeat(3, 200px);
         column-gap: 25px;
         row-gap: 30px;
     }
+
     &__item {
+        border-radius: 20px;
+        overflow: hidden;
+
         width: 200px;
         height: 318px;
         background-color: black;
@@ -22,22 +27,43 @@
         padding: 15px;
         cursor: pointer;
         transition: 0.3s transform;
+
+        &-enter {
+            transform: translateX(-1200px) rotate(90deg);
+            transition: all linear;
+        }
+
+        &-enter-active {
+            transition: all linear;
+
+        }
+        &-enter-done {
+            transform: translateX(0) rotate(0deg);
+            transition: all 500ms;
+        }
+
+
         img {
             width: 200px;
             height: 200px;
             object-fit: cover;
             transform: translate(-15px, -15px);
+
+
         }
+
         &_selected {
             box-shadow: 0 5px 20px $main-color;
             transform: translateY(-8px);
         }
     }
+
     &__name {
         font-weight: bold;
         font-size: 22px;
         line-height: 29px;
         text-transform: uppercase;
         color: #fff;
+
     }
 }

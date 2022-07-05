@@ -31,15 +31,15 @@ const RandomChar = () => {
 
 
 
-    const errorMessage = error ? <ErrorMessage/> : null
-    const spinner = loading ? <Spinner/> : null
-    const content = !(loading || error) ? <View char={char}/> : null
+    // const errorMessage = error ? <ErrorMessage/> : null
+    // const spinner = loading ? <Spinner/> : null
+    // const content = !(loading || error) ? <View char={char}/> : null
 
     return (
         <div className="randomchar">
-            {errorMessage}
-            {spinner}
-            {content}
+            {error && <ErrorMessage/>}
+            {loading && (<Spinner/>)}
+            {!(loading || error) && <View char={char}/>}
             <div className="randomchar__static">
                 <p className="randomchar__title">
                     Random character for today!<br/>

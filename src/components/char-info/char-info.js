@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import useMarvelService from '../../services/marvel-services';
 import ErrorMessage from '../error-message/error-message';
 import Spinner from '../spinner/spinner';
@@ -53,14 +55,14 @@ const View = ({char}) => {
 
     const {name, description, wiki, homepage, thumbnail, comics} = char
     const imageStyle = thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? {objectFit: 'unset'} : {objectFit: 'cover'}
-
     const comicsItems = comics.map((item, index) => {
+        const comicsId = item.resourceURI.match(/\d+$/g)[0]; 
         // eslint-disable-next-line
         if (index>10) return
         return (
-            <li key={index} className="char__comics-item">
+            <Link to={`/comics/${comicsId}`} key={index} className="char__comics-item">
                     {item.name}
-            </li>
+            </Link>
         )
     })
     return (
@@ -96,3 +98,7 @@ const View = ({char}) => {
 }
 
 export default CharInfo;
+
+
+
+  

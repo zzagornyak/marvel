@@ -33,11 +33,11 @@ const ComicsList = () => {
     }
 
     function onComicsLoaded(newComics) {
-        const comicsEnded = newComics.length < 8 ? false : true
+        const comicsEnded = newComics.length < 12 ? false : true
 
 
         setComics(comics => [...comics, ...newComics])
-        setOffset(offset => offset+9)
+        setOffset(offset => offset+12)
         setNewComicsLoading (false)
         setButtonVisible(comicsEnded)
     }
