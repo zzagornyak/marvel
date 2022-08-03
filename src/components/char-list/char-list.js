@@ -60,11 +60,11 @@ const CharsList = (props) => {
                             behavior: "smooth"
                         })
                     }
-                }}
-                in={item.id}
-                key={id}
-                timeout={100}
-                classNames={"char__item"}>
+                    }}
+                    in={item.id}
+                    key={id}
+                    timeout={100}
+                    classNames={"char__item"}>
                     <li 
                         ref={el => itemRefs.current[i] = el}
                         tabIndex={0}

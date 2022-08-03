@@ -20,6 +20,7 @@ const App = () => {
                 <div className="app">
                     <div className="app__content">
                         <AppHeader/>
+                        
                         <main>
                             <Routes>
                                 <Route path="/" element={<MainPage/>}/>
