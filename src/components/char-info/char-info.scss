@@ -1,12 +1,17 @@
 @import '../../style/variables.scss';
 
 .char {
+    &__aside {
+        top: 20px;
+        z-index: 5;
+        position: sticky;
+
+    }
     &__info {
         padding: 25px;
-        top: 20px;
+        
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
-        position: sticky;
-        z-index: 5;
+        
         background-color: #fff;
         border-radius: 20px;
         max-height: 700px;

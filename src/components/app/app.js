@@ -10,7 +10,7 @@ import AppHeader from "../app-header/app-header";
 
 const MainPage = lazy( ()=> import("../pages/MainPage") )
 const ComicsPage = lazy( ()=> import("../pages/ComicsPage") )
-const SingleComicPage = lazy( ()=> import("../pages/SingleComicPage") )
+const SingleItemPage = lazy( ()=> import("../pages/SingleItemPage") )
 const Page404 = lazy( ()=> import("../pages/404") )
 
 const App = () => {
@@ -24,8 +24,9 @@ const App = () => {
                         <main>
                             <Routes>
                                 <Route path="/" element={<MainPage/>}/>
+                                <Route path="/:characterId" element={<SingleItemPage/>}/>
                                 <Route path="/comics" element={<ComicsPage/>}/>
-                                <Route path="/comics/:comicId" element={<SingleComicPage/>}/>
+                                <Route path="/comics/:comicId" element={<SingleItemPage/>}/>
                                 <Route path="*" element={<Page404/>}/>
                             </Routes>
                         </main>
