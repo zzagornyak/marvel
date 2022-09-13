@@ -1,4 +1,11 @@
+#### 8. Project development
+
+Open http://localhost:8080 to view the project in the browser.
+
+
+
 # Getting Started with Create React App
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
