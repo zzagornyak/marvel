@@ -1,4 +1,13 @@
+#### 8. Project development
+
+Open http://localhost:8080 to view the project in the browser.
+
+[Zzagornyak/marvvel](https://github.com/zzagornyak/marvel)
+[Zzagornyak/marvvel](https://github.com/zzagornyak/marvel)
+
+
 # Getting Started with Create React App
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
