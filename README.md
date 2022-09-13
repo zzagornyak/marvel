@@ -3,7 +3,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
-
+```
+- [іфв/фів-api.git](https://github.com/zzagornyak/marvel)
+- [фів/фів-фів-фів.git](https://github.com/zzagornyak/marvel)
+```
 In the project directory, you can run:
 
 ### `yarn start`
